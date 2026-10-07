@@ -1,0 +1,1396 @@
+/* ==========================================================================
+   ADITYA NARAYAN PADHI - WINDOWS 98 / 90s RETRO PORTFOLIO DESIGN SYSTEM
+   Strict adherence to retro specs, 0px border-radius, authentic 3D bevels
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   RESET & SYSTEM VARIABLES
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border-radius: 0 !important; /* STRICT CONSTRAINT: 0px everywhere */
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: grayscale;
+  image-rendering: pixelated;
+}
+
+:root {
+  --win-gray: #c0c0c0;
+  --win-dark-gray: #808080;
+  --win-darker-gray: #404040;
+  --win-light-gray: #dfdfdf;
+  --win-white: #ffffff;
+  --win-black: #000000;
+  
+  --navy-start: #000080;
+  --navy-end: #1084d0;
+  --inactive-title-start: #808080;
+  --inactive-title-end: #b5b5b5;
+
+  --help-yellow: #ffffcc;
+  --table-gray: #e8e8e8;
+
+  --font-ui: "MS Sans Serif", Tahoma, "Segoe UI", Arial, sans-serif;
+  --font-head: "Arial Black", Impact, sans-serif;
+  --font-mono: "Courier New", Courier, monospace;
+
+  --link-default: #0000ff;
+  --link-visited: #800080;
+  --link-hover: #ff0000;
+}
+
+/* --------------------------------------------------------------------------
+   GLOBAL STYLES & RETRO BACKGROUND
+   BACKGROUND: Tiled crosshatch gray pattern on #C0C0C0
+   -------------------------------------------------------------------------- */
+html, body {
+  min-height: 100vh;
+  background-color: var(--win-gray);
+  /* Tiled crosshatch gray pattern on #C0C0C0 */
+  background-image: 
+    linear-gradient(45deg, var(--win-dark-gray) 25%, transparent 25%, transparent 75%, var(--win-dark-gray) 75%, var(--win-dark-gray)),
+    linear-gradient(45deg, var(--win-dark-gray) 25%, transparent 25%, transparent 75%, var(--win-dark-gray) 75%, var(--win-dark-gray));
+  background-size: 4px 4px;
+  background-position: 0 0, 2px 2px;
+  background-attachment: fixed;
+  color: var(--win-black);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  line-height: 1.4;
+  overflow-x: hidden;
+  padding-bottom: 40px; /* Space for taskbar */
+  cursor: default;
+}
+
+/* --------------------------------------------------------------------------
+   HYPERLINK CONSTRAINTS:
+   Always underlined, #0000FF default, #800080 visited, #FF0000 hover.
+   Instant color change (no transitions).
+   -------------------------------------------------------------------------- */
+a, a:link {
+  color: var(--link-default);
+  text-decoration: underline;
+  transition: none !important;
+}
+
+a:visited {
+  color: var(--link-visited);
+}
+
+a:hover, a:active {
+  color: var(--link-hover);
+  text-decoration: underline;
+  transition: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   BEVEL SYSTEM (EXACT SPECIFICATIONS)
+   Outset: border-color: #ffffff #808080 #808080 #ffffff;
+           box-shadow: inset -1px -1px 0 #404040, inset 1px 1px 0 #dfdfdf;
+   Inset:  border-color: #808080 #ffffff #ffffff #808080;
+           box-shadow: inset 1px 1px 0 #404040, inset -1px -1px 0 #dfdfdf;
+   Button active: translates 1px down and right with inset borders.
+   -------------------------------------------------------------------------- */
+.outset-box {
+  background-color: var(--win-gray);
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  box-shadow: inset -1px -1px 0 #404040, inset 1px 1px 0 #dfdfdf;
+}
+
+.inset-box {
+  background-color: var(--win-white);
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+  box-shadow: inset 1px 1px 0 #404040, inset -1px -1px 0 #dfdfdf;
+}
+
+/* Buttons active state */
+button.outset-box:active,
+a.outset-box:active,
+.outset-box.btn-pressed {
+  border-color: #808080 #ffffff #ffffff #808080 !important;
+  box-shadow: inset 1px 1px 0 #404040, inset -1px -1px 0 #dfdfdf !important;
+  transform: translate(1px, 1px);
+}
+
+/* --------------------------------------------------------------------------
+   1. TOP DESKTOP MARQUEE
+   -------------------------------------------------------------------------- */
+.desktop-marquee-container {
+  width: 100%;
+  background-color: #000080;
+  color: #ffff00;
+  border-bottom: 2px solid #ffffff;
+  box-shadow: inset 0 -1px 0 #404040, 0 2px 0 #808080;
+  padding: 4px 0;
+  overflow: hidden;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-weight: bold;
+  font-size: 13px;
+  letter-spacing: 1px;
+  position: relative;
+  z-index: 100;
+}
+
+.marquee-content {
+  display: inline-block;
+  white-space: nowrap;
+  animation: marquee-scroll 25s linear infinite;
+}
+
+.marquee-content span {
+  display: inline-block;
+  padding-right: 50px;
+}
+
+@keyframes marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* --------------------------------------------------------------------------
+   DESKTOP WORKSPACE LAYOUT
+   -------------------------------------------------------------------------- */
+.desktop-area {
+  display: flex;
+  position: relative;
+  min-height: calc(100vh - 80px);
+  padding: 16px 16px 40px 16px;
+  gap: 20px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+/* --------------------------------------------------------------------------
+   DESKTOP ICONS SHORTCUTS (LEFT SIDEBAR)
+   -------------------------------------------------------------------------- */
+.desktop-icons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 90px;
+  flex-shrink: 0;
+  padding-top: 8px;
+}
+
+.desktop-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 84px;
+  padding: 6px 4px;
+  cursor: pointer;
+  text-align: center;
+  user-select: none;
+  background: transparent;
+  outline: none;
+  border: 1px dotted transparent;
+}
+
+.desktop-icon:hover,
+.desktop-icon:focus {
+  background-color: rgba(0, 0, 128, 0.2);
+  border: 1px dotted #ffffff;
+}
+
+.desktop-icon:focus .icon-label,
+.desktop-icon:active .icon-label {
+  background-color: #000080;
+  color: #ffffff;
+}
+
+.icon-graphic {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.icon-label {
+  font-size: 11px;
+  color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.65);
+  padding: 1px 3px;
+  word-break: break-word;
+  line-height: 1.1;
+  text-shadow: 1px 1px 0 #000000;
+}
+
+/* --------------------------------------------------------------------------
+   WINDOWS LAYER & CONTAINER
+   -------------------------------------------------------------------------- */
+.windows-layer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+/* --------------------------------------------------------------------------
+   GENERIC WINDOWS 98 WINDOW STYLES
+   -------------------------------------------------------------------------- */
+.win98-window {
+  background-color: var(--win-gray);
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  box-shadow: inset -1px -1px 0 #404040, inset 1px 1px 0 #dfdfdf, 2px 2px 8px rgba(0,0,0,0.3);
+  padding: 3px;
+  position: relative;
+  width: 100%;
+}
+
+/* Active window title bar gradient */
+.win98-title-bar {
+  background: linear-gradient(90deg, var(--navy-start) 0%, var(--navy-end) 100%);
+  padding: 3px 4px 3px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+  height: 22px;
+}
+
+.win98-title-text {
+  color: var(--win-white);
+  font-weight: bold;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: 0.5px;
+}
+
+.win-title-icon {
+  flex-shrink: 0;
+}
+
+.win98-title-controls {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.win-btn {
+  width: 16px;
+  height: 14px;
+  background-color: var(--win-gray);
+  border: 1px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  box-shadow: inset -1px -1px 0 #404040, inset 1px 1px 0 #dfdfdf;
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: bold;
+  line-height: 10px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #000;
+}
+
+.win-btn:active {
+  border-color: #808080 #ffffff #ffffff #808080;
+  box-shadow: inset 1px 1px 0 #404040, inset -1px -1px 0 #dfdfdf;
+  transform: translate(1px, 1px);
+}
+
+/* Menu Bar */
+.win98-menu-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 3px 6px;
+  background-color: var(--win-gray);
+  border-bottom: 1px solid var(--win-dark-gray);
+  box-shadow: 0 1px 0 var(--win-white);
+  font-size: 11px;
+}
+
+.menu-item {
+  cursor: pointer;
+  padding: 1px 4px;
+}
+
+.menu-item:hover {
+  background-color: #000080;
+  color: #ffffff;
+}
+
+/* Window Body */
+.win98-window-body {
+  padding: 12px;
+  background-color: var(--win-gray);
+}
+
+/* Status Bar */
+.win98-status-bar {
+  display: flex;
+  gap: 3px;
+  margin-top: 10px;
+  padding-top: 2px;
+}
+
+.status-panel {
+  padding: 2px 6px;
+  font-size: 11px;
+  color: #202020;
+  background-color: var(--win-gray);
+}
+
+.status-flex {
+  flex: 1;
+}
+
+/* --------------------------------------------------------------------------
+   2. HERO APPLICATION WINDOW (Aditya_Padhi.exe)
+   -------------------------------------------------------------------------- */
+.hero-header-box {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 14px;
+  align-items: center;
+}
+
+.hero-avatar-pane {
+  padding: 6px;
+  background-color: #000000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.avatar-badge {
+  background-color: #00ff00;
+  color: #000000;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: bold;
+  padding: 1px 4px;
+  letter-spacing: 1px;
+}
+
+.hero-title-group {
+  flex: 1;
+}
+
+/* Rainbow Animated H1 Headline */
+.rainbow-headline {
+  font-family: var(--font-head);
+  font-size: clamp(22px, 4vw, 36px);
+  letter-spacing: 1px;
+  line-height: 1.1;
+  margin-bottom: 4px;
+  background: linear-gradient(
+    90deg, 
+    #ff0000 0%, 
+    #ff7f00 14%, 
+    #ffff00 28%, 
+    #00ff00 42%, 
+    #00ffff 57%, 
+    #0000ff 71%, 
+    #8b00ff 85%, 
+    #ff0000 100%
+  );
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: rainbow-shift 4s linear infinite;
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes rainbow-shift {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+.hero-subhead {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: bold;
+  color: #000080;
+  margin-bottom: 8px;
+}
+
+.hero-meta-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.meta-tag {
+  background-color: #e0e0e0;
+  border: 1px solid #808080;
+  padding: 2px 6px;
+  font-size: 11px;
+  font-weight: bold;
+  color: #333333;
+}
+
+/* Inset Yellow Help Panel Bio (#FFFFCC) */
+.win98-help-panel {
+  background-color: var(--help-yellow) !important;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  color: #000000;
+}
+
+.help-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  color: #000080;
+  font-size: 12px;
+}
+
+.bio-text {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #1a1a1a;
+  font-family: var(--font-ui);
+}
+
+/* --------------------------------------------------------------------------
+   3. SOCIAL & CONTACT BAR ("System Tray / Quick Launch")
+   -------------------------------------------------------------------------- */
+.quick-launch-bar {
+  margin-top: 14px;
+  background-color: #d8d8d8;
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+  box-shadow: inset 1px 1px 0 #404040, inset -1px -1px 0 #dfdfdf;
+  padding: 10px 12px;
+}
+
+.quick-launch-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+  font-size: 11px;
+  border-bottom: 1px dotted #808080;
+  padding-bottom: 4px;
+}
+
+.quick-launch-title {
+  font-weight: bold;
+  color: #000080;
+}
+
+.quick-launch-sub {
+  font-family: var(--font-mono);
+  color: #555555;
+  font-size: 10px;
+}
+
+.quick-launch-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.ql-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 10px 8px;
+  text-decoration: none !important;
+  color: var(--win-black) !important;
+  cursor: pointer;
+  background-color: var(--win-gray);
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  box-shadow: inset -1px -1px 0 #404040, inset 1px 1px 0 #dfdfdf;
+}
+
+.ql-button:hover {
+  background-color: #ececec;
+}
+
+.ql-button:active {
+  border-color: #808080 #ffffff #ffffff #808080 !important;
+  box-shadow: inset 1px 1px 0 #404040, inset -1px -1px 0 #dfdfdf !important;
+  transform: translate(1px, 1px);
+}
+
+.ql-icon-wrapper {
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.retro-icon-2px {
+  filter: drop-shadow(1px 1px 0 #ffffff);
+}
+
+.ql-label {
+  font-family: var(--font-head);
+  font-size: 13px;
+  color: #000080;
+  margin-bottom: 2px;
+}
+
+.ql-detail {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: #333333;
+  word-break: break-all;
+}
+
+/* --------------------------------------------------------------------------
+   4. EDUCATION & ACADEMIC DETAILS (Education.txt Notepad)
+   -------------------------------------------------------------------------- */
+.notepad-body {
+  padding: 4px;
+  background-color: var(--win-gray);
+}
+
+.notepad-paper {
+  background-color: #ffffff !important;
+  padding: 12px;
+  overflow-x: auto;
+  max-height: 380px;
+}
+
+.notepad-content {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.45;
+  color: #000000;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0;
+}
+
+.blinking-cursor {
+  display: inline-block;
+  color: #000000;
+  font-weight: bold;
+  animation: cursor-blink 1s step-end infinite;
+}
+
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* --------------------------------------------------------------------------
+   5. TECH STACK ("Control Panel" / Database Table)
+   Visible cell borders (2px solid #808080), alternating white (#FFFFFF)
+   and gray (#E8E8E8) rows. Outset button tags for individual tools.
+   -------------------------------------------------------------------------- */
+.cpl-header-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  background-color: #ffffff;
+}
+
+.cpl-header-info strong {
+  color: #000080;
+  font-size: 12px;
+}
+
+.cpl-header-info p {
+  font-size: 11px;
+  color: #444444;
+  margin: 2px 0 0 0;
+}
+
+.table-container {
+  overflow-x: auto;
+  background-color: #ffffff;
+  padding: 2px;
+}
+
+.retro-tech-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.retro-tech-table th {
+  background-color: var(--win-gray);
+  border: 2px solid #808080;
+  padding: 6px 8px;
+  text-align: left;
+  font-family: var(--font-ui);
+  font-weight: bold;
+  color: #000000;
+  box-shadow: inset -1px -1px 0 #404040, inset 1px 1px 0 #dfdfdf;
+}
+
+.retro-tech-table td {
+  border: 2px solid #808080; /* Visible cell borders (2px solid #808080) */
+  padding: 8px 10px;
+  vertical-align: middle;
+}
+
+/* Alternating white (#FFFFFF) and gray (#E8E8E8) row backgrounds */
+.retro-tech-table tr.row-white td {
+  background-color: #ffffff;
+}
+
+.retro-tech-table tr.row-gray td {
+  background-color: var(--table-gray);
+}
+
+.col-id {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #000080;
+  width: 90px;
+}
+
+.col-domain strong {
+  font-size: 12px;
+  color: #000000;
+}
+
+.domain-sub {
+  font-size: 10px;
+  color: #555555;
+  margin-top: 2px;
+}
+
+.col-tools {
+  min-width: 250px;
+}
+
+.tag-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* Outset button tags for individual tools */
+.tech-tag {
+  background-color: var(--win-gray);
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  box-shadow: inset -1px -1px 0 #404040, inset 1px 1px 0 #dfdfdf;
+  padding: 3px 8px;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: bold;
+  color: #000000;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tech-tag:hover {
+  background-color: #ececec;
+}
+
+.tech-tag:active {
+  border-color: #808080 #ffffff #ffffff #808080;
+  box-shadow: inset 1px 1px 0 #404040, inset -1px -1px 0 #dfdfdf;
+  transform: translate(1px, 1px);
+}
+
+.tag-bullet {
+  color: #000080;
+  font-size: 8px;
+}
+
+.col-status {
+  width: 140px;
+  text-align: center;
+}
+
+.status-pill {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: bold;
+  padding: 3px 6px;
+  display: inline-block;
+  border: 1px solid #000;
+}
+
+.status-ready {
+  background-color: #c0ffc0;
+  color: #006000;
+}
+
+/* --------------------------------------------------------------------------
+   6. OPEN SOURCE CONTRIBUTIONS WINDOW (Contributions.log)
+   -------------------------------------------------------------------------- */
+.tree-log-container {
+  padding: 10px;
+  background-color: #ffffff;
+}
+
+.directory-tree-view {
+  font-family: var(--font-ui);
+}
+
+.tree-root {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 6px;
+  background-color: #e0e0e0;
+  border: 1px solid #a0a0a0;
+  margin-bottom: 10px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: #000080;
+}
+
+.tree-children {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-left: 10px;
+  border-left: 2px dashed #808080;
+  margin-left: 8px;
+}
+
+.tree-item-box {
+  background-color: var(--win-gray);
+  padding: 8px 10px;
+}
+
+.tree-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.tree-item-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #000080;
+}
+
+.tree-item-role {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: #404040;
+  background-color: #e8e8e8;
+  padding: 2px 6px;
+  border: 1px solid #808080;
+}
+
+.tree-item-body {
+  padding: 8px 10px;
+  background-color: #ffffff;
+}
+
+.tree-desc {
+  font-size: 12px;
+  line-height: 1.4;
+  color: #222222;
+  margin-bottom: 8px;
+}
+
+.tree-meta-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
+.tree-tag {
+  background-color: #f0f0f0;
+  border: 1px solid #c0c0c0;
+  padding: 2px 5px;
+}
+
+/* Animated red "HOT!" and "NEW!" pulsing badge */
+.retro-badge {
+  background-color: #ff0000;
+  color: #ffff00;
+  font-family: var(--font-head);
+  font-size: 10px;
+  padding: 2px 6px;
+  border: 1px solid #000000;
+  letter-spacing: 0.5px;
+  animation: pulse-hot 1s infinite alternate;
+  display: inline-block;
+}
+
+@keyframes pulse-hot {
+  0% {
+    transform: scale(1);
+    background-color: #ff0000;
+    color: #ffff00;
+    box-shadow: 0 0 2px #ff0000;
+  }
+  100% {
+    transform: scale(1.08);
+    background-color: #cc0000;
+    color: #ffffff;
+    box-shadow: 0 0 6px #ff0000;
+  }
+}
+
+.retro-badge-new {
+  background-color: #ffff00;
+  color: #ff0000;
+  font-family: var(--font-head);
+  font-size: 9px;
+  padding: 1px 4px;
+  border: 1px solid #000000;
+  animation: pulse-new 0.8s infinite alternate;
+  display: inline-block;
+}
+
+@keyframes pulse-new {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.1); }
+}
+
+/* Active status indicator */
+.active-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: bold;
+  background-color: #000080;
+  color: #00ff00;
+  padding: 2px 6px;
+  border: 1px solid #000000;
+}
+
+.blinking-led {
+  color: #00ff00;
+  font-size: 10px;
+  animation: led-blink 0.9s step-end infinite;
+}
+
+@keyframes led-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+/* --------------------------------------------------------------------------
+   7. RETRO FOOTER ("System Shutdown")
+   - Classic green monospace hit counter: "Visitors: 00014829 | Since 1997".
+   - "Under Construction" striping on the bottom border (repeating-linear-gradient yellow and black).
+   - "Last Updated: 2026 | Made with Notepad | ITER".
+   -------------------------------------------------------------------------- */
+.retro-system-footer {
+  margin-top: 30px;
+  width: 100%;
+}
+
+/* Under Construction Striping (repeating-linear-gradient yellow and black) */
+.under-construction-tape {
+  height: 24px;
+  background: repeating-linear-gradient(
+    -45deg,
+    #ffcc00,
+    #ffcc00 12px,
+    #000000 12px,
+    #000000 24px
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-top: 2px solid #000000;
+  border-bottom: 2px solid #000000;
+}
+
+.tape-text {
+  background-color: #000000;
+  color: #ffff00;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: bold;
+  padding: 2px 8px;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.footer-core-panel {
+  padding: 16px;
+  background-color: var(--win-gray);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+}
+
+/* Classic green monospace hit counter */
+.hit-counter-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #000000 !important;
+  padding: 6px 12px;
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+  box-shadow: inset 1px 1px 0 #404040, inset -1px -1px 0 #dfdfdf;
+}
+
+.counter-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #aaaaaa;
+  font-weight: bold;
+}
+
+.hit-counter-digits {
+  display: flex;
+  gap: 2px;
+  background-color: #001a00;
+  padding: 2px 4px;
+  border: 1px solid #004400;
+}
+
+.counter-num {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: bold;
+  color: #00ff00;
+  background-color: #000000;
+  padding: 1px 4px;
+  border: 1px solid #003300;
+  text-shadow: 0 0 4px #00ff00;
+}
+
+.counter-since {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #00ff00;
+}
+
+.footer-meta-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.footer-lead {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: bold;
+  color: #000080;
+}
+
+.footer-links-row {
+  font-size: 11px;
+  color: #404040;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.footer-cmd-btn {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: bold;
+  padding: 2px 8px;
+  cursor: pointer;
+  background-color: var(--win-gray);
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+}
+
+.retro-badges-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.badge-item {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: bold;
+  padding: 3px 6px;
+  background-color: #e0e0e0;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  color: #222222;
+}
+
+/* --------------------------------------------------------------------------
+   WINDOWS 98 TASKBAR & SYSTEM TRAY (FIXED BOTTOM DOCK)
+   -------------------------------------------------------------------------- */
+.win98-taskbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 32px;
+  background-color: var(--win-gray);
+  border-top: 2px solid #ffffff;
+  box-shadow: inset 0 1px 0 #dfdfdf;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 4px;
+  z-index: 1000;
+}
+
+.taskbar-left {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  overflow-x: auto;
+  flex: 1;
+}
+
+.win-start-button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  padding: 2px 6px;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: var(--win-gray);
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  box-shadow: inset -1px -1px 0 #404040, inset 1px 1px 0 #dfdfdf;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.win-start-button:active,
+.win-start-button.active {
+  border-color: #808080 #ffffff #ffffff #808080;
+  box-shadow: inset 1px 1px 0 #404040, inset -1px -1px 0 #dfdfdf;
+  transform: translate(1px, 1px);
+}
+
+.taskbar-divider {
+  width: 2px;
+  height: 20px;
+  border-left: 1px solid #808080;
+  border-right: 1px solid #ffffff;
+  margin: 0 3px;
+  flex-shrink: 0;
+}
+
+.taskbar-tasks {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.task-button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  padding: 2px 8px;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  background-color: var(--win-gray);
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  box-shadow: inset -1px -1px 0 #404040, inset 1px 1px 0 #dfdfdf;
+}
+
+.task-button.active {
+  background-color: #e0e0e0;
+  border-color: #808080 #ffffff #ffffff #808080;
+  box-shadow: inset 1px 1px 0 #404040, inset -1px -1px 0 #dfdfdf;
+  font-weight: bold;
+}
+
+.task-icon {
+  font-size: 12px;
+}
+
+/* System Tray (Clock & Audio) */
+.taskbar-system-tray {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+  padding: 2px 8px;
+  background-color: var(--win-gray) !important;
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+  box-shadow: inset 1px 1px 0 #404040, inset -1px -1px 0 #dfdfdf;
+  flex-shrink: 0;
+}
+
+.tray-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0 2px;
+  display: flex;
+  align-items: center;
+}
+
+.tray-divider {
+  width: 1px;
+  height: 14px;
+  background-color: #808080;
+}
+
+.tray-clock {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  color: #000000;
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   START MENU
+   -------------------------------------------------------------------------- */
+.win98-start-menu {
+  position: fixed;
+  bottom: 34px;
+  left: 2px;
+  width: 240px;
+  background-color: var(--win-gray);
+  display: flex;
+  z-index: 1001;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+.start-menu-sidebar {
+  width: 32px;
+  background: linear-gradient(180deg, #000080 0%, #1084d0 100%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 12px;
+}
+
+.start-sidebar-text {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  color: #ffffff;
+  font-family: var(--font-head);
+  font-size: 18px;
+  letter-spacing: 2px;
+}
+
+.start-sidebar-text b {
+  color: #c0c0c0;
+}
+
+.start-menu-items {
+  flex: 1;
+  padding: 3px;
+  display: flex;
+  flex-direction: column;
+}
+
+.start-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  color: var(--win-black) !important;
+  text-decoration: none !important;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.start-menu-item:hover {
+  background-color: #000080;
+  color: #ffffff !important;
+}
+
+.start-item-icon {
+  font-size: 16px;
+  width: 20px;
+  text-align: center;
+}
+
+.start-divider {
+  height: 2px;
+  border-top: 1px solid #808080;
+  border-bottom: 1px solid #ffffff;
+  margin: 3px 2px;
+}
+
+/* --------------------------------------------------------------------------
+   MODALS & DIALOGS
+   -------------------------------------------------------------------------- */
+.retro-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal-window {
+  width: 90%;
+  max-width: 440px;
+}
+
+.shutdown-dialog-content,
+.run-dialog-content {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.shutdown-icon, .run-icon {
+  flex-shrink: 0;
+  padding-top: 4px;
+}
+
+.shutdown-options p,
+.run-inputs p {
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+
+.retro-radio {
+  display: block;
+  margin-bottom: 6px;
+  cursor: pointer;
+  font-size: 11px;
+}
+
+.retro-radio input {
+  margin-right: 6px;
+}
+
+.run-input-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.retro-input,
+.retro-textarea {
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 4px 6px;
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.retro-textarea {
+  resize: vertical;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: bold;
+  font-size: 11px;
+}
+
+.modal-buttons-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px solid #808080;
+}
+
+.dialog-btn {
+  padding: 4px 14px;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  min-width: 70px;
+  cursor: pointer;
+  background-color: var(--win-gray);
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  box-shadow: inset -1px -1px 0 #404040, inset 1px 1px 0 #dfdfdf;
+}
+
+.dialog-btn:active {
+  border-color: #808080 #ffffff #ffffff #808080;
+  box-shadow: inset 1px 1px 0 #404040, inset -1px -1px 0 #dfdfdf;
+  transform: translate(1px, 1px);
+}
+
+/* Utility hidden class */
+.hidden {
+  display: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE DESIGN (Ensuring authentic 1024x768 & mobile graceful fallbacks)
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .desktop-area {
+    flex-direction: column;
+    padding: 10px 8px 50px 8px;
+  }
+
+  .desktop-icons-container {
+    flex-direction: row;
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    border-bottom: 2px dotted #808080;
+  }
+
+  .hero-header-box {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .quick-launch-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .win98-window-body {
+    padding: 8px 6px;
+  }
+
+  .taskbar-tasks {
+    display: none; /* Hide multi-tabs on small screens for taskbar clarity */
+  }
+
+  .footer-links-row {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
